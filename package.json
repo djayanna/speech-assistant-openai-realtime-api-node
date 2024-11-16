@@ -1,20 +1,35 @@
 {
-  "name": "speech-assistant-openai-realtime-api-node",
-  "version": "1.0.1",
-  "description": "",
+  "name": "twilio-openai-voice-assistant",
+  "version": "1.0.0",
+  "description": "A voice assistant using Twilio Media Streams and OpenAI Realtime API",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "twilio",
+    "openai",
+    "websocket",
+    "voice-assistant",
+    "express",
+    "media-streams"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
-    "@fastify/formbody": "^8.0.0",
-    "@fastify/websocket": "^11.0.0",
-    "dotenv": "^16.4.5",
-    "fastify": "^5.0.0",
-    "ws": "^8.18.0"
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-ws": "^5.0.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

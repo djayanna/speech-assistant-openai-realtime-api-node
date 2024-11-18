@@ -1,6 +1,6 @@
 import express from "express";
-import expressWs from "express-ws";
-import WebSocket from "ws";
+import { WebSocketServer, WebSocket } from "ws";
+import http from "http";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 
@@ -15,9 +15,11 @@ if (!OPENAI_API_KEY) {
   process.exit(1);
 }
 
-// Initialize Express with WebSocket support
+// Initialize Express and HTTP server
 const app = express();
-const wsInstance = expressWs(app);
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -62,8 +64,13 @@ app.all("/incoming-call", (req, res) => {
   res.send(twimlResponse);
 });
 
-// WebSocket route for media-stream
-app.ws("/media-stream", (ws, req) => {
+// WebSocket connection handler
+wss.on("connection", (ws, req) => {
+  if (req.url !== "/media-stream") {
+    ws.close();
+    return;
+  }
+
   console.log("Client connected");
 
   // Connection-specific state
@@ -287,6 +294,6 @@ app.ws("/media-stream", (ws, req) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
